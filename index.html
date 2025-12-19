@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Salary Calculator</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f5f7fa;
+      padding: 20px;
+    }
+    .card {
+      max-width: 420px;
+      margin: auto;
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: right;
+      font-size: 14px;
+    }
+    th:first-child, td:first-child {
+      text-align: left;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      border: none;
+      background: #eef2ff;
+      padding: 6px;
+      text-align: right;
+      font-size: 14px;
+      border-radius: 6px;
+    }
+    .footer {
+      margin-top: 12px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>💰 Salary Calculator</h2>
+
+  <table>
+    <tr>
+      <th></th>
+      <th>Per Hr</th>
+      <th>Per Annum</th>
+    </tr>
+
+    <tr>
+      <td>Current INR</td>
+      <td id="currentInrHr">1538.46</td>
+      <td>32,00,000</td>
+    </tr>
+
+    <tr>
+      <td>Current USD</td>
+      <td id="currentUsdHr">17.19</td>
+      <td id="currentUsdYr">35,754</td>
+    </tr>
+
+    <tr>
+      <td>Expected USD</td>
+      <td>
+        <input id="expectedUsdHr" type="number" value="25" />
+      </td>
+      <td id="expectedUsdYr">52,000</td>
+    </tr>
+
+    <tr>
+      <td>Expected INR</td>
+      <td id="expectedInrHr">2237.50</td>
+      <td id="expectedInrYr">46,54,000</td>
+    </tr>
+  </table>
+
+  <div class="footer">
+    <div>
+      Exchange Rate (INR / USD):
+      <input id="rate" type="number" value="89.5" step="0.1" />
+    </div>
+    <div>Hours/Yr: 2080</div>
+  </div>
+</div>
+
+<script>
+  const HOURS = 2080;
+
+  function formatINR(num) {
+    return Math.round(num).toLocaleString("en-IN");
+  }
+
+  function calculate() {
+    const usdHr = parseFloat(document.getElementById("expectedUsdHr").value);
+    const rate = parseFloat(document.getElementById("rate").value);
+
+    const usdYr = usdHr * HOURS;
+    const inrHr = usdHr * rate;
+    const inrYr = inrHr * HOURS;
+
+    document.getElementById("expectedUsdYr").innerText =
+      formatINR(usdYr);
+
+    document.getElementById("expectedInrHr").innerText =
+      inrHr.toFixed(2);
+
+    document.getElementById("expectedInrYr").innerText =
+      formatINR(inrYr);
+  }
+
+  document
+    .getElementById("expectedUsdHr")
+    .addEventListener("input", calculate);
+
+  document
+    .getElementById("rate")
+    .addEventListener("input", calculate);
+
+  calculate();
+</script>
+
+</body>
+</html>
